@@ -1,10 +1,9 @@
 # Bailey Thompson
-# Graphing Calculator (Alpha 1.1.0)
+# Graphing Calculator (Alpha 1.1.1)
 # 8 January 2017
 # Info: This programs is intended to graph functions.
 # TODO: make the formula label update instead of printing to console
 # TODO: make sin, cos, tan, arcsin, arccos, arctan, log, and ln work
-# TODO: make asymptotes work
 # TODO: make implicit multiplication work (ie: 5x = 5*x)
 from tkinter import *
 from tkinter import ttk
