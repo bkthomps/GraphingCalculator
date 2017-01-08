@@ -1,15 +1,20 @@
 # Bailey Thompson
-# Graphing Calculator (Alpha 1.1.1)
+# Graphing Calculator (Alpha 1.2.0)
 # 8 January 2017
 # Info: This programs is intended to graph functions.
-# TODO: make the formula label update instead of printing to console
-# TODO: make sin, cos, tan, arcsin, arccos, arctan, log, and ln work
-# TODO: make implicit multiplication work (ie: 5x = 5*x)
+# TODO: make log and ln work
+# TODO: make decimal exponents work
+
 from tkinter import *
 from tkinter import ttk
+import math
 
-size = 10
-formula = "x"
+size = 8.0
+formula = "1/x"
+MAX_SIZE = 256.0
+MIN_SIZE = 0.25
+INCREMENT = 2.0
+COMPUTATION_DISTANCE = 0.001
 
 
 def translate(x, y):
@@ -41,9 +46,9 @@ def draw_graph(event):
     x = size * -1
     while x <= size:
         y = eval(formula)
-        draw_line(x - size * 0.01, yprev, x, y, "black")
+        draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
         yprev = y
-        x += size * 0.01
+        x += COMPUTATION_DISTANCE * size
 
 root = Tk()
 
@@ -55,13 +60,12 @@ verticalScreen = root.winfo_screenheight() / 2 - root.winfo_reqheight()
 root.geometry("+%d+%d" % (horizontalScreen, verticalScreen))
 
 canvas = Canvas(root)
-functionDisplay = Label(root, text="f(x) = " + formula).grid(row=1, column=0)
 
 
 def print_formula():
-    # TODO: make this work
-    # functionDisplay.config(text="f(x) = " + formula)
-    print("f(x) = " + formula)
+    Label(root, text="[{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0, columnspan=5, sticky=W+E)
+
+print_formula()
 
 
 def append_formula(thing):
@@ -72,7 +76,8 @@ def append_formula(thing):
 
 def clear_formula():
     global formula
-    formula = ""
+    while formula != "":
+        delete_formula()
     print_formula()
 
 
@@ -83,17 +88,34 @@ def delete_formula():
 
 
 def zoom_in():
-    global size
-    if size > 0.1:
-        size /= 10
+    global size, btnZoomIn, btnZoomOut
+    btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
+    if size > MIN_SIZE:
+        size /= INCREMENT
         draw_graph("event")
+    if size == MIN_SIZE:
+        btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED).grid(row=8, column=2)
+    print_formula()
 
 
 def zoom_out():
-    global size
-    if size < 1000:
-        size *= 10
+    global size, btnZoomOut, btnZoomIn
+    btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
+    if size < MAX_SIZE:
+        size *= INCREMENT
         draw_graph("event")
+    if size == MAX_SIZE:
+        btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(), state=DISABLED).grid(row=8, column=3)
+    print_formula()
+
+
+def append_implicit(thing):
+    global formula
+    if formula[-1:].isdigit():
+        formula += "*" + thing
+    else:
+        formula += thing
+    print_formula()
 
 btn0 = ttk.Button(root, text="0", command=lambda: append_formula("0")).grid(row=2, column=0)
 btn1 = ttk.Button(root, text="1", command=lambda: append_formula("1")).grid(row=2, column=1)
@@ -107,17 +129,17 @@ btn7 = ttk.Button(root, text="7", command=lambda: append_formula("7")).grid(row=
 btn8 = ttk.Button(root, text="8", command=lambda: append_formula("8")).grid(row=3, column=3)
 btn9 = ttk.Button(root, text="9", command=lambda: append_formula("9")).grid(row=3, column=4)
 
-btnSin = ttk.Button(root, text="sin", command=lambda: append_formula("sin(")).grid(row=4, column=0)
-btnCos = ttk.Button(root, text="cos", command=lambda: append_formula("cos(")).grid(row=4, column=1)
-btnTan = ttk.Button(root, text="tan", command=lambda: append_formula("tan(")).grid(row=4, column=2)
-btnLog = ttk.Button(root, text="log", command=lambda: append_formula("log(")).grid(row=4, column=3)
-btnLn = ttk.Button(root, text="ln", command=lambda: append_formula("ln(")).grid(row=4, column=4)
+btnSin = ttk.Button(root, text="sin", command=lambda: append_implicit("math.sin(")).grid(row=4, column=0)
+btnCos = ttk.Button(root, text="cos", command=lambda: append_implicit("math.cos(")).grid(row=4, column=1)
+btnTan = ttk.Button(root, text="tan", command=lambda: append_implicit("math.tan(")).grid(row=4, column=2)
+btnPi = ttk.Button(root, text="π", command=lambda: append_implicit("math.pi")).grid(row=4, column=3)
+btnE = ttk.Button(root, text="e", command=lambda: append_implicit("math.e")).grid(row=4, column=4)
 
-btnCsc = ttk.Button(root, text="arcsin", command=lambda: append_formula("arcsin(")).grid(row=5, column=0)
-btnSec = ttk.Button(root, text="arccos", command=lambda: append_formula("arccos(")).grid(row=5, column=1)
-btnCot = ttk.Button(root, text="arctan", command=lambda: append_formula("arctan(")).grid(row=5, column=2)
-btnPi = ttk.Button(root, text="π", command=lambda: append_formula("3.14")).grid(row=5, column=3)
-btnE = ttk.Button(root, text="e", command=lambda: append_formula("2.72")).grid(row=5, column=4)
+btnCsc = ttk.Button(root, text="sinh", command=lambda: append_implicit("math.sinh(")).grid(row=5, column=0)
+btnSec = ttk.Button(root, text="cosh", command=lambda: append_implicit("math.cosh(")).grid(row=5, column=1)
+btnCot = ttk.Button(root, text="tanh", command=lambda: append_implicit("math.tanh(")).grid(row=5, column=2)
+btnLog = ttk.Button(root, text="log", command=lambda: append_implicit("math.log(")).grid(row=5, column=3)
+btnLn = ttk.Button(root, text="ln", command=lambda: append_implicit("math.ln(")).grid(row=5, column=4)
 
 btnPlus = ttk.Button(root, text="+", command=lambda: append_formula("+")).grid(row=6, column=0)
 btnMinus = ttk.Button(root, text="-", command=lambda: append_formula("-")).grid(row=6, column=1)
@@ -131,7 +153,7 @@ btnPeriod = ttk.Button(root, text=".", command=lambda: append_formula(".")).grid
 btnDelete = ttk.Button(root, text="Delete", command=lambda: delete_formula()).grid(row=7, column=3)
 btnClear = ttk.Button(root, text="Clear", command=lambda: clear_formula()).grid(row=7, column=4)
 
-btnX = ttk.Button(root, text="x", command=lambda: append_formula("x")).grid(row=8, column=0)
+btnX = ttk.Button(root, text="x", command=lambda: append_implicit("x")).grid(row=8, column=0)
 btnEnter = ttk.Button(root, text="Enter")
 btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
 btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
@@ -143,5 +165,6 @@ btnEnter.grid(row=8, column=1)
 canvas.grid(row=0, column=0, columnspan=5)
 
 draw_grid()
+draw_graph("event")
 
 root.mainloop()
