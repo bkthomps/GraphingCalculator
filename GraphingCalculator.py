@@ -1,8 +1,7 @@
 # Bailey Thompson
-# Graphing Calculator (Alpha 1.2.0)
+# Graphing Calculator (Alpha 1.3.0)
 # 8 January 2017
 # Info: This programs is intended to graph functions.
-# TODO: make log and ln work
 # TODO: make decimal exponents work
 
 from tkinter import *
@@ -45,7 +44,13 @@ def draw_graph(event):
     yprev = 0.0
     x = size * -1
     while x <= size:
-        y = eval(formula)
+        try:
+            y = eval(formula)
+        except ValueError:
+            y = 1000000000
+            x = COMPUTATION_DISTANCE * size
+            if eval(formula) < 0:
+                y *= -1
         draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
         yprev = y
         x += COMPUTATION_DISTANCE * size
@@ -138,8 +143,8 @@ btnE = ttk.Button(root, text="e", command=lambda: append_implicit("math.e")).gri
 btnCsc = ttk.Button(root, text="sinh", command=lambda: append_implicit("math.sinh(")).grid(row=5, column=0)
 btnSec = ttk.Button(root, text="cosh", command=lambda: append_implicit("math.cosh(")).grid(row=5, column=1)
 btnCot = ttk.Button(root, text="tanh", command=lambda: append_implicit("math.tanh(")).grid(row=5, column=2)
-btnLog = ttk.Button(root, text="log", command=lambda: append_implicit("math.log(")).grid(row=5, column=3)
-btnLn = ttk.Button(root, text="ln", command=lambda: append_implicit("math.ln(")).grid(row=5, column=4)
+btnLog = ttk.Button(root, text="log", command=lambda: append_implicit("math.log10(")).grid(row=5, column=3)
+btnLn = ttk.Button(root, text="ln", command=lambda: append_implicit("math.log(")).grid(row=5, column=4)
 
 btnPlus = ttk.Button(root, text="+", command=lambda: append_formula("+")).grid(row=6, column=0)
 btnMinus = ttk.Button(root, text="-", command=lambda: append_formula("-")).grid(row=6, column=1)
