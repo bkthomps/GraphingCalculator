@@ -1,12 +1,12 @@
 # Bailey Thompson
-# Graphing Calculator (Alpha 1.3.0)
+# Graphing Calculator (Alpha 1.4.0)
 # 8 January 2017
 # Info: This programs is intended to graph functions.
-# TODO: make decimal exponents work
+# TODO: make it so label can't resize the frame
 
 from tkinter import *
 from tkinter import ttk
-import math
+import math as m
 
 size = 8.0
 formula = "1/x"
@@ -51,9 +51,21 @@ def draw_graph(event):
             x = COMPUTATION_DISTANCE * size
             if eval(formula) < 0:
                 y *= -1
-        draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
+        except SyntaxError and NameError:
+            Label(root, text="SYNTAX ERROR   [{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, columnspan=5,
+                                                                                                  column=0,
+                                                                                                  sticky=W + E)
+            break
+        try:
+            draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
+        except:
+            Label(root, text="NON-INTEGER POWER   [{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0,
+                                                                                                       columnspan=5,
+                                                                                                       sticky=W + E)
+            break
         yprev = y
         x += COMPUTATION_DISTANCE * size
+
 
 root = Tk()
 
@@ -68,14 +80,19 @@ canvas = Canvas(root)
 
 
 def print_formula():
-    Label(root, text="[{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0, columnspan=5, sticky=W+E)
+    Label(root, text="[{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0, columnspan=5, sticky=W + E)
+
 
 print_formula()
 
 
 def append_formula(thing):
     global formula
-    formula += thing
+    if formula.endswith('.') and thing == '.':
+        formula = formula[:-1]
+        formula += ","
+    else:
+        formula += thing
     print_formula()
 
 
@@ -116,11 +133,21 @@ def zoom_out():
 
 def append_implicit(thing):
     global formula
-    if formula[-1:].isdigit():
-        formula += "*" + thing
+    if formula[-1:].isdigit() or formula.endswith('e') or (formula.endswith('i') and formula[-2:] != "si"):
+        if thing == "**":
+            formula += thing
+        else:
+            formula += "*" + thing
+    elif formula[-2:] == "**":
+        formula = formula[:-2]
+        if formula[-1:].isdigit() or formula.endswith('e') or (formula.endswith('i') and formula[-2:] != "si"):
+            formula += "*m.pow(x,"
+        else:
+            formula += "m.pow(x,"
     else:
         formula += thing
     print_formula()
+
 
 btn0 = ttk.Button(root, text="0", command=lambda: append_formula("0")).grid(row=2, column=0)
 btn1 = ttk.Button(root, text="1", command=lambda: append_formula("1")).grid(row=2, column=1)
@@ -134,23 +161,23 @@ btn7 = ttk.Button(root, text="7", command=lambda: append_formula("7")).grid(row=
 btn8 = ttk.Button(root, text="8", command=lambda: append_formula("8")).grid(row=3, column=3)
 btn9 = ttk.Button(root, text="9", command=lambda: append_formula("9")).grid(row=3, column=4)
 
-btnSin = ttk.Button(root, text="sin", command=lambda: append_implicit("math.sin(")).grid(row=4, column=0)
-btnCos = ttk.Button(root, text="cos", command=lambda: append_implicit("math.cos(")).grid(row=4, column=1)
-btnTan = ttk.Button(root, text="tan", command=lambda: append_implicit("math.tan(")).grid(row=4, column=2)
-btnPi = ttk.Button(root, text="π", command=lambda: append_implicit("math.pi")).grid(row=4, column=3)
-btnE = ttk.Button(root, text="e", command=lambda: append_implicit("math.e")).grid(row=4, column=4)
+btnSin = ttk.Button(root, text="sin", command=lambda: append_implicit("m.sin(")).grid(row=4, column=0)
+btnCos = ttk.Button(root, text="cos", command=lambda: append_implicit("m.cos(")).grid(row=4, column=1)
+btnTan = ttk.Button(root, text="tan", command=lambda: append_implicit("m.tan(")).grid(row=4, column=2)
+btnPi = ttk.Button(root, text="π", command=lambda: append_implicit("m.pi")).grid(row=4, column=3)
+btnE = ttk.Button(root, text="e", command=lambda: append_implicit("m.e")).grid(row=4, column=4)
 
-btnCsc = ttk.Button(root, text="sinh", command=lambda: append_implicit("math.sinh(")).grid(row=5, column=0)
-btnSec = ttk.Button(root, text="cosh", command=lambda: append_implicit("math.cosh(")).grid(row=5, column=1)
-btnCot = ttk.Button(root, text="tanh", command=lambda: append_implicit("math.tanh(")).grid(row=5, column=2)
-btnLog = ttk.Button(root, text="log", command=lambda: append_implicit("math.log10(")).grid(row=5, column=3)
-btnLn = ttk.Button(root, text="ln", command=lambda: append_implicit("math.log(")).grid(row=5, column=4)
+btnCsc = ttk.Button(root, text="sinh", command=lambda: append_implicit("m.sinh(")).grid(row=5, column=0)
+btnSec = ttk.Button(root, text="cosh", command=lambda: append_implicit("m.cosh(")).grid(row=5, column=1)
+btnCot = ttk.Button(root, text="tanh", command=lambda: append_implicit("m.tanh(")).grid(row=5, column=2)
+btnLog = ttk.Button(root, text="log", command=lambda: append_implicit("m.log10(")).grid(row=5, column=3)
+btnLn = ttk.Button(root, text="ln", command=lambda: append_implicit("m.log(")).grid(row=5, column=4)
 
 btnPlus = ttk.Button(root, text="+", command=lambda: append_formula("+")).grid(row=6, column=0)
 btnMinus = ttk.Button(root, text="-", command=lambda: append_formula("-")).grid(row=6, column=1)
 btnMultiply = ttk.Button(root, text="*", command=lambda: append_formula("*")).grid(row=6, column=2)
 btnDivide = ttk.Button(root, text="/", command=lambda: append_formula("/")).grid(row=6, column=3)
-btnExponent = ttk.Button(root, text="^", command=lambda: append_formula("**")).grid(row=6, column=4)
+btnExponent = ttk.Button(root, text="^", command=lambda: append_implicit("**")).grid(row=6, column=4)
 
 btnLeftBracket = ttk.Button(root, text="(", command=lambda: append_formula("(")).grid(row=7, column=0)
 btnRightBracket = ttk.Button(root, text=")", command=lambda: append_formula(")")).grid(row=7, column=1)
