@@ -1,8 +1,7 @@
 # Bailey Thompson
-# Graphing Calculator (Alpha 1.4.0)
+# Graphing Calculator (1.0.0)
 # 8 January 2017
 # Info: This programs is intended to graph functions.
-# TODO: make it so label can't resize the frame
 
 from tkinter import *
 from tkinter import ttk
@@ -51,17 +50,25 @@ def draw_graph(event):
             x = COMPUTATION_DISTANCE * size
             if eval(formula) < 0:
                 y *= -1
-        except SyntaxError and NameError:
-            Label(root, text="SYNTAX ERROR   [{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, columnspan=5,
-                                                                                                  column=0,
-                                                                                                  sticky=W + E)
+        except SyntaxError:
+            Label(root, text="SYNTAX ERROR   [{0:.2f}".format(size) + "] f(x) = " + formula, relief=RIDGE,
+                  width=1).grid(row=1, columnspan=5,
+                                column=0,
+                                sticky=W + E)
+            break
+        except NameError:
+            Label(root, text="SYNTAX ERROR   [{0:.2f}".format(size) + "] f(x) = " + formula, relief=RIDGE,
+                  width=1).grid(row=1, columnspan=5,
+                                column=0,
+                                sticky=W + E)
             break
         try:
             draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
         except:
-            Label(root, text="NON-INTEGER POWER   [{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0,
-                                                                                                       columnspan=5,
-                                                                                                       sticky=W + E)
+            Label(root, text="NON-INTEGER POWER   [{0:.2f}".format(size) + "] f(x) = " + formula, relief=RIDGE,
+                  width=1).grid(row=1, column=0,
+                                columnspan=5,
+                                sticky=W + E)
             break
         yprev = y
         x += COMPUTATION_DISTANCE * size
@@ -80,7 +87,9 @@ canvas = Canvas(root)
 
 
 def print_formula():
-    Label(root, text="[{0:.2f}".format(size) + "] f(x) = " + formula).grid(row=1, column=0, columnspan=5, sticky=W + E)
+    Label(root, text="[{0:.2f}".format(size) + "] f(x) = " + formula, relief=RIDGE, width=1).grid(row=1, column=0,
+                                                                                                  columnspan=5,
+                                                                                                  sticky=W + E)
 
 
 print_formula()
