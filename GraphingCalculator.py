@@ -1,5 +1,5 @@
 # Bailey Thompson
-# Graphing Calculator (1.1.1)
+# Graphing Calculator (1.1.2)
 # 31 January 2017
 # Info: This program graphs functions based on user-input.
 
@@ -26,21 +26,21 @@ def print_formula(pre_text):
           width=1).grid(row=1, column=0, columnspan=5, sticky=W + E)
 
 
-def translate(x, y):
+def translate(x_current, y_current):
     tc = [0, 0]
     x_mul = int(canvas["width"]) / (size * 2)
     y_mul = (int(canvas["height"]) / (size * -2))
-    x = (x + size) * x_mul
-    y = (y + size) * y_mul + int(canvas["height"])
-    tc[0] = x
-    tc[1] = y
+    x_current = (x_current + size) * x_mul
+    y_current = (y_current + size) * y_mul + int(canvas["height"])
+    tc[0] = x_current
+    tc[1] = y_current
     return tc
 
 
-def draw_line(xfrom, yfrom, xto, yto, colour):
-    fromcoords = translate(xfrom, yfrom)
-    tocoords = translate(xto, yto)
-    if yto - yfrom > size * ASYMPTOTE or yfrom - yto > size * ASYMPTOTE:
+def draw_line(x_from, y_from, x_to, y_to, colour):
+    fromcoords = translate(x_from, y_from)
+    tocoords = translate(x_to, y_to)
+    if y_to - y_from > size * ASYMPTOTE or y_from - y_to > size * ASYMPTOTE:
         fromcoords = tocoords
     canvas.create_line(fromcoords[0], fromcoords[1], tocoords[0], tocoords[1], fill=colour)
 
