@@ -1,5 +1,5 @@
 # Bailey Thompson
-# Graphing Calculator (1.2.0)
+# Graphing Calculator (1.2.1)
 # 31 January 2017
 # Info: This program graphs functions based on user-input.
 
@@ -167,9 +167,9 @@ root = Tk()
 root.wm_title("Graphing Calculator")
 root.resizable(width=False, height=False)
 
-horizontalScreen = root.winfo_screenwidth() / 2 - root.winfo_reqwidth()
-verticalScreen = root.winfo_screenheight() / 2 - root.winfo_reqheight()
-root.geometry("+%d+%d" % (horizontalScreen, verticalScreen))
+horizontal_screen = root.winfo_screenwidth() / 2 - root.winfo_reqwidth()
+vertical_screen = root.winfo_screenheight() / 2 - root.winfo_reqheight()
+root.geometry("+%d+%d" % (horizontal_screen, vertical_screen))
 
 canvas = Canvas(root)
 
