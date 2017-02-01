@@ -1,5 +1,5 @@
 # Bailey Thompson
-# Graphing Calculator (1.1.4)
+# Graphing Calculator (1.2.0)
 # 31 January 2017
 # Info: This program graphs functions based on user-input.
 
@@ -106,7 +106,7 @@ def zoom_in():
         draw_graph("event")
     if view_size == MIN_SIZE:
         btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED).grid(row=8, column=2)
-    print_formula("")
+    draw_graph(None)
 
 
 def zoom_out():
@@ -117,7 +117,7 @@ def zoom_out():
         draw_graph("event")
     if view_size == MAX_SIZE:
         btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(), state=DISABLED).grid(row=8, column=3)
-    print_formula("")
+    draw_graph(None)
 
 
 def correct_ending_no_number(name):
