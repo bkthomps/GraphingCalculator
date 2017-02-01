@@ -1,5 +1,5 @@
 # Bailey Thompson
-# Graphing Calculator (1.1.2)
+# Graphing Calculator (1.1.3)
 # 31 January 2017
 # Info: This program graphs functions based on user-input.
 
@@ -38,11 +38,11 @@ def translate(x_current, y_current):
 
 
 def draw_line(x_from, y_from, x_to, y_to, colour):
-    fromcoords = translate(x_from, y_from)
-    tocoords = translate(x_to, y_to)
+    from_coord = translate(x_from, y_from)
+    to_coord = translate(x_to, y_to)
     if y_to - y_from > size * ASYMPTOTE or y_from - y_to > size * ASYMPTOTE:
-        fromcoords = tocoords
-    canvas.create_line(fromcoords[0], fromcoords[1], tocoords[0], tocoords[1], fill=colour)
+        from_coord = to_coord
+    canvas.create_line(from_coord[0], from_coord[1], to_coord[0], to_coord[1], fill=colour)
 
 
 def draw_grid():
@@ -53,7 +53,7 @@ def draw_grid():
 def draw_graph(event):
     canvas.delete("all")
     draw_grid()
-    yprev = 0.0
+    y_previous = 0.0
     x = size * -1
     while x <= size:
         try:
@@ -67,11 +67,11 @@ def draw_graph(event):
             print_formula("SYNTAX ERROR   ")
             break
         try:
-            draw_line(x - COMPUTATION_DISTANCE * size, yprev, x, y, "black")
+            draw_line(x - COMPUTATION_DISTANCE * size, y_previous, x, y, "black")
         except:
             print_formula("NON-INT PWR (dbl click ^)   ")
             break
-        yprev = y
+        y_previous = y
         x += COMPUTATION_DISTANCE * size
 
 
