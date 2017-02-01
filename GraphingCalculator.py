@@ -1,7 +1,7 @@
 # Bailey Thompson
-# Graphing Calculator (1.1.0)
-# 10 January 2017
-# Info: This programs is intended to graph functions.
+# Graphing Calculator (1.1.1)
+# 31 January 2017
+# Info: This program graphs functions based on user-input.
 
 from tkinter import *
 from tkinter import ttk
@@ -99,24 +99,24 @@ def delete_formula():
 
 
 def zoom_in():
-    global size, btnZoomIn, btnZoomOut
-    btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
+    global size, btn_zoom_in, btn_zoom_out
+    btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
     if size > MIN_SIZE:
         size /= INCREMENT
         draw_graph("event")
     if size == MIN_SIZE:
-        btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED).grid(row=8, column=2)
+        btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED).grid(row=8, column=2)
     print_formula("")
 
 
 def zoom_out():
-    global size, btnZoomOut, btnZoomIn
-    btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
+    global size, btn_zoom_out, btn_zoom_in
+    btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
     if size < MAX_SIZE:
         size *= INCREMENT
         draw_graph("event")
     if size == MAX_SIZE:
-        btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(), state=DISABLED).grid(row=8, column=3)
+        btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(), state=DISABLED).grid(row=8, column=3)
     print_formula("")
 
 
@@ -212,14 +212,14 @@ btnDelete = ttk.Button(root, text="Delete", command=lambda: delete_formula()).gr
 btnClear = ttk.Button(root, text="Clear", command=lambda: clear_formula()).grid(row=7, column=4)
 
 btnX = ttk.Button(root, text="x", command=lambda: append_implicit("x")).grid(row=8, column=0)
-btnEnter = ttk.Button(root, text="Enter")
-btnZoomIn = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
-btnZoomOut = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
+btn_enter = ttk.Button(root, text="Enter")
+btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
+btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
 btnExit = ttk.Button(root, text="Exit App", command=lambda: exit(0)).grid(row=8, column=4)
 
-btnEnter.bind('<Button-1>', draw_graph)
+btn_enter.bind('<Button-1>', draw_graph)
 
-btnEnter.grid(row=8, column=1)
+btn_enter.grid(row=8, column=1)
 canvas.grid(row=0, column=0, columnspan=5)
 
 draw_grid()
