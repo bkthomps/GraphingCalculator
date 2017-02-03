@@ -1,6 +1,6 @@
 # Bailey Thompson
-# Graphing Calculator (1.2.1)
-# 31 January 2017
+# Graphing Calculator (1.2.2)
+# 2 February 2017
 # Info: This program graphs functions based on user-input.
 
 from tkinter import *
@@ -116,7 +116,8 @@ def zoom_out():
         view_size *= INCREMENT
         draw_graph("event")
     if view_size == MAX_SIZE:
-        btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(), state=DISABLED).grid(row=8, column=3)
+        btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(),
+                                  state=DISABLED).grid(row=8, column=3)
     draw_graph(None)
 
 
