@@ -1,2 +1,2 @@
 # GraphingCalculator
-This program generates graphs based on user-input.
+This program graphs functions based on user-input.
