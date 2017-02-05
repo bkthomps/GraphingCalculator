@@ -1,11 +1,21 @@
 # Bailey Thompson
-# Graphing Calculator (1.2.2)
-# 2 February 2017
+# Graphing Calculator (1.3.0)
+# 5 February 2017
 # Info: This program graphs functions based on user-input.
 
 from tkinter import *
 from tkinter import ttk
-import math as m
+from math import pow
+from math import sin
+from math import cos
+from math import tan
+from math import pi
+from math import e
+from math import sinh
+from math import cosh
+from math import tanh
+from math import log10
+from math import log
 
 # size constants
 MAX_SIZE = 64.0
@@ -139,9 +149,9 @@ def append_implicit(thing):
     elif formula[-2:] == "**" and thing == "**":
         formula = formula[:-2]
         if correct_ending(formula):
-            formula += "*m.pow(x,"
+            formula += "*pow(x,"
         else:
-            formula += "m.pow(x,"
+            formula += "pow(x,"
     else:
         formula += thing
     print_formula("")
@@ -188,17 +198,17 @@ ttk.Button(root, text="7", command=lambda: append_number_formula("7")).grid(row=
 ttk.Button(root, text="8", command=lambda: append_number_formula("8")).grid(row=3, column=3)
 ttk.Button(root, text="9", command=lambda: append_number_formula("9")).grid(row=3, column=4)
 
-ttk.Button(root, text="sin", command=lambda: append_implicit("m.sin(")).grid(row=4, column=0)
-ttk.Button(root, text="cos", command=lambda: append_implicit("m.cos(")).grid(row=4, column=1)
-ttk.Button(root, text="tan", command=lambda: append_implicit("m.tan(")).grid(row=4, column=2)
-ttk.Button(root, text="π", command=lambda: append_implicit("m.pi")).grid(row=4, column=3)
-ttk.Button(root, text="e", command=lambda: append_implicit("m.e")).grid(row=4, column=4)
+ttk.Button(root, text="sin", command=lambda: append_implicit("sin(")).grid(row=4, column=0)
+ttk.Button(root, text="cos", command=lambda: append_implicit("cos(")).grid(row=4, column=1)
+ttk.Button(root, text="tan", command=lambda: append_implicit("tan(")).grid(row=4, column=2)
+ttk.Button(root, text="π", command=lambda: append_implicit("pi")).grid(row=4, column=3)
+ttk.Button(root, text="e", command=lambda: append_implicit("e")).grid(row=4, column=4)
 
-ttk.Button(root, text="sinh", command=lambda: append_implicit("m.sinh(")).grid(row=5, column=0)
-ttk.Button(root, text="cosh", command=lambda: append_implicit("m.cosh(")).grid(row=5, column=1)
-ttk.Button(root, text="tanh", command=lambda: append_implicit("m.tanh(")).grid(row=5, column=2)
-ttk.Button(root, text="log", command=lambda: append_implicit("m.log10(")).grid(row=5, column=3)
-ttk.Button(root, text="ln", command=lambda: append_implicit("m.log(")).grid(row=5, column=4)
+ttk.Button(root, text="sinh", command=lambda: append_implicit("sinh(")).grid(row=5, column=0)
+ttk.Button(root, text="cosh", command=lambda: append_implicit("cosh(")).grid(row=5, column=1)
+ttk.Button(root, text="tanh", command=lambda: append_implicit("tanh(")).grid(row=5, column=2)
+ttk.Button(root, text="log", command=lambda: append_implicit("log10(")).grid(row=5, column=3)
+ttk.Button(root, text="ln", command=lambda: append_implicit("log(")).grid(row=5, column=4)
 
 ttk.Button(root, text="+", command=lambda: append_formula("+")).grid(row=6, column=0)
 ttk.Button(root, text="-", command=lambda: append_formula("-")).grid(row=6, column=1)
