@@ -1,7 +1,7 @@
 # Bailey Thompson
-# Graphing Calculator (1.3.0)
-# 5 February 2017
-# Info: This program graphs functions based on user-input.
+# Graphing Calculator (1.3.1)
+# 21 February 2017
+# Graphs functions based on user-input.
 
 from tkinter import *
 from tkinter import ttk
@@ -17,16 +17,13 @@ from math import tanh
 from math import log10
 from math import log
 
-# size constants
 MAX_SIZE = 64.0
 MIN_SIZE = 1.0
 INCREMENT = 2.0
 
-# approximation constants
 COMPUTATION_DISTANCE = 0.001
 ASYMPTOTE = 2.0
 
-# global variables
 formula = "(x**3-2*x)/(2*(x**2-5))"
 view_size = 8.0
 
